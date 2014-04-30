@@ -47,3 +47,8 @@ table(airports.f$type)
 
 
 ## Need to add state into airports.f, but my brain is rebelling against anything more tonight.
+
+
+
+write.csv(airports.f, "data/airports_US.csv", row.names=FALSE)
+write.csv(regions.f, "data/regions_US.csv", row.names=FALSE)
