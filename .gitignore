@@ -7,7 +7,13 @@
 # R data files from past sessions
 .Rdata
 
+# R Project Files
+.Rproj.user
+*.Rproj
+
 
 # Extra Latex Files
 *.log
 *.synctex.gz
+*concordance.tex
+
