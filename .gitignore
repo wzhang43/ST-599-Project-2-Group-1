@@ -7,8 +7,17 @@
 # R data files from past sessions
 .Rdata
 
+# R Project Files
+.Rproj.user
+*.Rproj
+
 
 # Extra Latex Files
 *.log
 *.synctex.gz
+<<<<<<< HEAD
 .Rproj.user
+=======
+*concordance.tex
+
+>>>>>>> 04d673f2f97bd347d94b9812d6f01edd1560522d

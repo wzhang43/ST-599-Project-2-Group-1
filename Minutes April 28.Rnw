@@ -1,74 +1,7 @@
-\documentclass[paper=a4, fontsize=13pt]{scrartcl} % A4 paper and 11pt font size
-
-\usepackage[pdftex]{graphicx}
-\usepackage{multirow}
-\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
-\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
-\usepackage{multirow}
-\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
-\usepackage{listings}
-\usepackage[capposition=top]{floatrow}
-\usepackage{longtable}
-\usepackage{color}
-\usepackage[english]{babel} % English language/hyphenation
-\usepackage{amsmath,amsfonts,amsthm} % Math packages
-\usepackage{graphicx}
-\usepackage[margin=2.7cm]{geometry}
-\usepackage{sectsty} % Allows customizing section commands
-\allsectionsfont{\normalfont\scshape} % Make all sections centered, the default font and small caps
-
-\graphicspath{{./fig/}} % store your graphs in this folder
-
-\usepackage{fancyhdr} % Custom headers and footers
-\pagestyle{plain} % Makes all pages in the document conform to the custom headers and footers
-\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
-\fancyfoot[L]{} % Empty left footer
-\fancyfoot[C]{} % Empty center footer
-\fancyfoot[R]{\thepage} % Page numbering for right footer
-\renewcommand{\headrulewidth}{0pt} % Remove header underlines
-\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
-%\setlength{\headheight}{13pt} % Customize the height of the header
-
-\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
-\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
-
-\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
-\definecolor{dkgreen}{rgb}{0,0.6,0}
-\definecolor{gray}{rgb}{0.5,0.5,0.5}
-\definecolor{mauve}{rgb}{0.58,0,0.82}
-
-\lstset{frame=tb,
-  language=R,
-  aboveskip=3mm,
-  belowskip=3mm,
-  showstringspaces=false,
-  columns=flexible,
-  basicstyle={\small\ttfamily},
-  numbers=none,
-  numberstyle=\tiny\color{gray},
-  keywordstyle=\color{blue},
-  commentstyle=\color{dkgreen},
-  stringstyle=\color{mauve},
-  breaklines=true,
-  breakatwhitespace=true
-  tabsize=3
-}
-%----------------------------------------------------------------------------------------
-%  TITLE SECTION
-%----------------------------------------------------------------------------------------
-
-\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
-\newcommand{\widesim}[2][1.5]{
-  \mathrel{\overset{#2}{\scalebox{#1}[1]{$\sim$}}}
-}
-
+\documentclass[paper=a4, fontsize=13pt]{scrartcl}
 
 \begin{document}
 
-%\maketitle % Print the title
-
-
-\pagebreak
 Big Data\\
 
 April 28, 2014\\
