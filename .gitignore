@@ -11,3 +11,4 @@
 # Extra Latex Files
 *.log
 *.synctex.gz
+.Rproj.user
