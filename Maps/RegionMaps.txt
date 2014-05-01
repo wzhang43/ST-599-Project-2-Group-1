@@ -1,0 +1,20 @@
+#### ==== US REgion Maps =====
+
+
+# Matt:
+
+1) http://www.ncdc.noaa.gov/monitoring-references/maps/us-climate-regions.php
+
+This breaks the US into 9 zones, not counting Hawaii and Alaska.
+
+As the website states, "Through climate analysis, National Climatic Data Center scientists have identified nine climatically consistent regions within the contiguous United States which are useful for putting current climate anomalies into a historical perspective"
+
+Since we're dealing with weather over time, comparing zones that are somewhat consistent interally would be good to do, and as I've previously argued, this would give us less things to compare on a visual graph. This one also breaks nicely by state.
+
+2) http://www.almanac.com/weather/longrange
+
+This breaks the US into 18 zones, including AK and HI
+
+I like this map in an esoteric sense, teh Farmer's Almanac is kind of a funky thing, but I think the problem here is if we do a "heat map" of the US, we're going to have to come up with the polygons for the different shapes, and it will be harder to divide the airports into the different regions.
+
+If we had more than a week, I'd push more for this, but due to our time frame, this is "nice but probably not possible."
