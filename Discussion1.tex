@@ -1,0 +1,32 @@
+\documentclass[12pt]{article}
+
+\begin{document}
+\title{Discussion 2}
+\maketitle
+
+Problems and Solutions
+
+\begin{itemize}
+\item Weather delay variable only being tracked since June 2003
+
+\item How are we going to summarize the flight delays by region? - proportion of weather delayed flights / mean minutes of flight delay due to weather
+
+\item How are we going to divide the county by region? - there are still clear differences in weather within state (e.g, eastern vs western oregon)
+
+\item Decide upon the visualization method to show the change in geographical patterns over time
+
+\end{itemize}
+
+\break
+
+\begin{itemize}
+
+\item We might use something like this weather region map: http://www.almanac.com/weather/lon
+grange. But the problem here is we would be adding data, or would need to externally track which airports were in which region.
+
+\item Instead of partitioning the country by region, we can pinpoint the location (of origin airport with weather delay) with the help of their latitudes and longitudes. Pinpoint means more the (mean/proportion) delay time, more bigger is the circle. We can visualize them on the US Map using maps and geosphere package in R. 
+
+- In looking at  Jul 2010, there were 284 departure airports represented. Having 284 points on a graph is going to be very hard to read.
+
+\end{itemize}
+\end{document}
