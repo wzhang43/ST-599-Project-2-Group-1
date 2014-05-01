@@ -10,25 +10,25 @@ Solution - by Matt
 
 \begin{itemize}
 \item Population-based approach  
-\break
+
 we need data by :
 Month, Airport, with proportion or mean of delay times,
-\break
+
 SQL can do the group by and summarizing for us
-\break
+
 we would run the same thing again for the arrival airport. We could modify ours to be specific about origin or destination, if necessary. That would give us a dataset that we could manipulate on our end, adding a "Region Code" column and then using that and dplyr to get at what we want. 
 
 \item Population-based approach  
-\break
+
 SQL has an "IN" function, just like R does
 which( dataframe \%in\% c("fie", "fi", "fo", "fum")) returns the indexes from "dataframe" that have a value in the list of strings. 
-\break
+
 we can make a list object where each item is a group of airport codes like so:
-\break
+
 regionlist <- list(  c("HOU", "DFW"),c("PDX", "TAC", "SEA"),c("LAX", "SDI"),etc)
-\break
+
 Then in our loop:
-\break
+
 for( i in 1:whatever) {
     ...
     filter( origin \%in\% regionlist[i] )
