@@ -26,6 +26,7 @@ years <- as.character(seq(2003, 2013,1))
 ## it takes about 80 seconds per year
 
 ## ==== NOTE ==== This will have the first 6 months of 2003 in it, so we'll need to filter those out by hand.
+## === UPDATE 5/2 5pm: this is currently not working for proportion data because count doesn't take conditionals. Trying to figure out work around, but right now it's looking like it will require one query for all data, one query for only weatherdelay > 0. boo.
 
 for(i in 1:length(years)){
   yr <- years[i]
