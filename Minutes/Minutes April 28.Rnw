@@ -1,0 +1,36 @@
+\documentclass[paper=a4, fontsize=13pt]{scrartcl}
+
+\begin{document}
+
+Big Data\\
+
+April 28, 2014\\
+
+1. "Start small" strategy: start with just one city/one year/one month.\\
+
+2. Group question: Are there geographical patterns in weather-related flight delays, and do these change over time. Use 25 years of flight data for the entire country.\\
+
+3. Group roles:\\
+
+Recorder: Wanli Zhang\\
+Coordinator: Narendra Babu\\
+Monitor \& Checker: Matt Edwards\\
+
+
+3. Databases: install postgreSQL\\
+
+SQL: database language\\
+
+Do the readings on class website\\
+
+\texttt{str()}: see structure of database. Variable names are under \texttt{select:}.
+
+
+
+
+
+
+
+
+
+\end{document}
