@@ -18,3 +18,9 @@ This breaks the US into 18 zones, including AK and HI
 I like this map in an esoteric sense, teh Farmer's Almanac is kind of a funky thing, but I think the problem here is if we do a "heat map" of the US, we're going to have to come up with the polygons for the different shapes, and it will be harder to divide the airports into the different regions.
 
 If we had more than a week, I'd push more for this, but due to our time frame, this is "nice but probably not possible."
+
+# Wanli
+
+3) http://www.nashua.edu/novakc/regions/Generalinformation.htm
+
+No commentary, pulled from Wanli's update to Rcode_Local.
