@@ -96,45 +96,11 @@ library(dplyr)
 
   delay.region = arrange(delay.region, origin, year, month)
   dim(delay.region)
-  head(delay.region)
+  head(delay.region, n=30L)
 
 
 
 
 #----------------------------------------------------------------------------#
-
-
-
-
-str(delay.region)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
 
 
