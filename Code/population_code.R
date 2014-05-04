@@ -32,13 +32,21 @@ library(dplyr)
 ## It was taking really long to try and do all 10 years at once, so I broke it down into year by year
 ## it takes about 80 seconds per year
 
+
+## UPDATED 5/4 to fix problem with counting flights delayed by weather.
+## SUM ignores NA, AVG ignores NA. Count does not, and my attempts to finagle it otherwise didn't seem to work. 
+
+
 ## ==== NOTE ==== This will have the first 6 months of 2003 in it, so we'll need to filter those out by hand.
 
   for(i in 1:length(years)){
     yr = years[i]
     qry = flights %.% group_by(year, month, origin) %.%
-      summarise(avg_del=mean(weatherdelay), n_flights=n(), n_wdelay=count(weatherdelay>0)) %.%
-      filter((year==yr))
+      summarise( ttl_del=sum(weatherdelay), avg_del=mean(weatherdelay), sd_del=sd(weatherdelay),
+                n_flights=n(), 
+                n_wdelay=sum(if(weatherdelay>0) { 1} else {0})
+                ) %.%
+      filter(year==yr)
   
     wd.new = collect(qry)
     weather.data = rbind(weather.data, wd.new)
@@ -48,6 +56,7 @@ library(dplyr)
 ## write to file so we don't have to run query again.
 
   write.csv(weather.data, "data/popn_weather_data.csv", row.names=FALSE)
+
 
 
 
