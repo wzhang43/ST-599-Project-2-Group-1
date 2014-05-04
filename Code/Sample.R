@@ -15,7 +15,7 @@ flights = tbl(ontime, "flights")
 mon <- filter(flights, (weatherdelay>0))%.%summarise(year,month,weatherdelay, origin)
 explain(mon)
 #mon[sample(nrow(mon), 100), ]     sampling didnt work
-mon_local <- collect(mon)
+mon_local <- collect(mon) #935373 rows
 write.csv(mon_local, "c:/Users/Nandhita/Desktop/FilteredFullData.csv", row.names=FALSE)
 
 Full = read.csv("c:/Users/Nandhita/Desktop/FilteredFullData.csv",stringsAsFactors = FALSE)
