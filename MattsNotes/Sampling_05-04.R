@@ -19,12 +19,16 @@ sum(n.samp$n_flights)
 # WHERE (origin IN <list> )
 
 
+library(dplyr)
+
+iata.region = read.csv("data/iata_by_region.csv", header=T)
+
 # fiddling with pulling regional lists of airports
 west.list <- iata.region%.%filter(Region=="West")%.%select(origin)
 
 by.reg <- iata.region%.%group_by(Region)%.%summarise(n=n())
 sum(by.reg$n) # that is the 360 airports we expect.
-summarise(iata.region)
+# summarise(iata.region)
 
 
 ## I want a list of lists for regions
@@ -70,7 +74,7 @@ o.list <- r.list[[1]]
 qry = flights %.% group_by(year, month, origin) %.%
   summarise( ttl_del=sum(weatherdelay), avg_del=mean(weatherdelay), sd_del=sd(weatherdelay),
              n_flights=n(), 
-             n_wdelay=sum(if(weatherdelay>0) { 1} else {0})
+             n_wdelay=sum(if(weatherdelay>0) {1} else {0})
   ) %.%
   filter(year==yr, month==10, origin %in% o.list )
 explain(qry)
@@ -148,7 +152,7 @@ for(i in 1:length(years)){
 
 system.time(cen.Feb2002 <- collect(qry))
 
-## this is essentially summarizing, and then attempting to take a random sample of the summaries, only tehre aren't enough of them.
+## this is essentially summarizing, and then attempting to take a random sample of the summaries, only there aren't enough of them.
 
 # i think we're going to have to sample individual flights, then summarize on our side.
 
@@ -202,7 +206,7 @@ for(i in 1:1){
       
       qry.rnd <- arrange(qry, random())
       
-      dat.temp <- head(qry.rnd, n=n.samp)
+      dat.temp <- head(qry.rnd, n=n.samp) # can adjust the size if we want to stratify proportionally
       
       dat.summ <- dat.temp %.% group_by(origin, year, month) %.% 
         summarise(
@@ -210,7 +214,7 @@ for(i in 1:1){
                   avg_del=mean(weatherdelay, na.rm=T), 
                   sd_del=sd(weatherdelay, na.rm=T),
                   n_flights=n(), 
-                  n_wdelay=sum(weatherdelay > 0)
+                  n_wdelay=sum(weatherdelay > 0) # we might want to leave the summarization till later, and only retain the original observations
                   ) 
 
       rand.data <- rbind(rand.data, dat.summ)
