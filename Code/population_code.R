@@ -27,7 +27,7 @@ library(dplyr)
 
 ### Setup for query cycle
   weather.data = data.frame()
-  years = as.character(seq(2003, 2013,1))
+  years = as.character(seq(2003, 2013, 1))
 
 ## It was taking really long to try and do all 10 years at once, so I broke it down into year by year
 ## it takes about 80 seconds per year
@@ -42,9 +42,9 @@ library(dplyr)
   for(i in 1:length(years)){
     yr = years[i]
     qry = flights %.% group_by(year, month, origin) %.%
-      summarise( ttl_del=sum(weatherdelay), avg_del=mean(weatherdelay), sd_del=sd(weatherdelay),
+      summarise(ttl_del=sum(weatherdelay), avg_del=mean(weatherdelay), sd_del=sd(weatherdelay),
                 n_flights=n(), 
-                n_wdelay=sum(if(weatherdelay>0) { 1} else {0})
+                n_wdelay=sum(if(weatherdelay>0) {1} else {0})
                 ) %.%
       filter(year==yr)
   
@@ -70,6 +70,10 @@ library(dplyr)
 
   dim(delay)
   # collect(delay)
+
+  head(delay)
+  max(delay$n_wdelay)
+  min(delay$n_wdelay)
  
 
 #-------------------------------------------------------------------------#
@@ -95,7 +99,7 @@ library(dplyr)
 ### organize all states into regions:
 ### origin: http://www.ncdc.noaa.gov/monitoring-references/maps/us-climate-regions.php
   
-  reg = read.csv("data/State_Region.csv", header=T) # see original file: added "unknown" region label for military bases and protectorates
+  reg = read.csv("data/State_Region.csv", header=T) # see original file: added "other" region label for military bases and protectorates
   reg = reg %.%
     mutate(state=State, region=Region) %.%
     select(state, region)
@@ -107,9 +111,42 @@ library(dplyr)
   dim(delay.region)
   head(delay.region, n=30L)
 
+## save the data:
+  write.csv(delay.region, "data/popn_summary_by_region.csv", row.names=FALSE) # this data set contains popl'n summary information, with region labels added
 
 
 
 #----------------------------------------------------------------------------#
+
+
+
+          ### Matt's code for regional population analysis ###
+                        ### updated 5/4 ###
+
+  pd.f = delay.region
+
+## Add Date, group by date & region
+  by.month = pd.f %.% group_by(year, month, region) %.%
+    summarise(mean_del = sum(avg_del*n_flights)/sum(n_flights),
+      n_all=sum(n_flights), n_del=sum(n_wdelay), p=n_del/n_all) 
+
+
+## add date: each month is identified by the first day of the month
+  by.month = mutate(by.month, dt.str=paste(year, month, "1", sep="-"))
+  str(by.month)
+  by.month$date = ymd(by.month$dt.str)
+  str(by.month)
+
+
+## write this to file so it can be recalled later
+  write.csv(by.month, "data/Popn_summary.csv", row.names=F)
+
+
+## plot by region
+
+  ggplot(by.month, aes(y=mean_del, x=date, group=region, colour=region))+geom_line()+ggtitle("Average of Delayed Flights by Region")
+
+  ggplot(by.month, aes(y=p, x=date, group=region, colour=region))+geom_line()+ggtitle("Proportion of Delayed Flights by Region")
+
 
 
