@@ -55,7 +55,21 @@ str(by.month)
 write.csv(by.month, "data/Popn_summary.csv", row.names=F)
 
 
+
+
+
+
 ## plot by region
 ggplot(by.month, aes(y=mean_del, x=date, group=region, colour=region))+geom_line()+ggtitle("Average of Delayed Flights by Region")
 
 ggplot(by.month, aes(y=p, x=date, group=region, colour=region))+geom_line()+ggtitle("Proportion of Delayed Flights by Region")
+
+
+## Sample size calculations
+head(by.month)
+mean(by.month$mean_del) # 2.21
+sd(by.month$mean_del) #1.91497
+mean(by.month$p) #0.012
+
+
+
