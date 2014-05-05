@@ -123,7 +123,7 @@ library(dplyr)
           ### Matt's code for regional population analysis ###
                         ### updated 5/4 ###
 
-  pd.f = delay.region
+  pd.f = read.csv("data/popn_summary_by_region.csv", header=T)
 
 ## Add Date, group by date & region
   by.month = pd.f %.% group_by(year, month, region) %.%
@@ -142,11 +142,28 @@ library(dplyr)
   write.csv(by.month, "data/Popn_summary.csv", row.names=F)
 
 
+
+
+
+  by.month = read.csv("data/Popn_summary.csv", header=T)
+
+  by.month.df = tbl_df(by.month)
+
 ## plot by region
 
-  ggplot(by.month, aes(y=mean_del, x=date, group=region, colour=region))+geom_line()+ggtitle("Average of Delayed Flights by Region")
+  ggplot(by.month, aes(y=mean_del, x=date, group=region, colour=region)) +
+    geom_line() +
+    coord_equal() +
+    facet_grid(region~.)
+    ggtitle("Average of Delayed Flights by Region")
 
-  ggplot(by.month, aes(y=p, x=date, group=region, colour=region))+geom_line()+ggtitle("Proportion of Delayed Flights by Region")
+  ggsave("popn_average.png", width=7, height=4, units="in", dpi=400)
+
+  ggplot(by.month, aes(y=p, x=date, group=region, colour=region)) +
+    geom_line() +
+    ggtitle("Proportion of Delayed Flights by Region")
+
+  ggsave("popn_prop.png", width=7, height=4, units="in", dpi=400)
 
 
 
