@@ -4,6 +4,17 @@ library(dplyr)
 library(lubridate)
 library(ggplot2)
 
+
+#### -----------------------------------------------------------------------
+##    5/4
+##  NOTE: the file popn_weather_data.csv on Git is  **NOT CURRENT**
+##    I didn't want to upload another large file w/o being sure about the contents. (1.8MB)
+##    e-mail me if you need the current file.
+##    graphics are from the current file.
+##
+#### -----------------------------------------------------------------------
+
+
 popn.data <- read.csv("data/popn_weather_data.csv", header=T)
 head(popn.data, n=50)
 
