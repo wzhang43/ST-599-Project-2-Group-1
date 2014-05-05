@@ -1,0 +1,42 @@
+\documentclass[paper=a4, fontsize=13pt]{scrartcl} % A4 paper and 11pt font size
+\usepackage{color}
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage{graphicx}
+\usepackage[margin=2.7cm]{geometry}
+\usepackage{sectsty} % Allows customizing section commands
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+\newcommand{\widesim}[2][1.5]{
+  \mathrel{\overset{#2}{\scalebox{#1}[1]{$\sim$}}}
+}
+
+
+\begin{document}
+
+
+
+May 5, 2014\\
+
+Before Wednesday: Matt will run the sampling code. Wanli will figure out the most appropriate graphical display we could use for the presentation. Nandhita will write the outline for the project report.\\
+
+Suggestion for visualization: Maybe we could use panels of time plots for population averages. We COULD use the aggregated plot to show that there is a shift around the end of 2007. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
