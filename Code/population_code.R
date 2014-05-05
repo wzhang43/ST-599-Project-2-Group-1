@@ -142,28 +142,53 @@ library(dplyr)
   write.csv(by.month, "data/Popn_summary.csv", row.names=F)
 
 
-
-
-
-  by.month = read.csv("data/Popn_summary.csv", header=T)
+  by.month = read.csv("data/Popn_summary.csv", header=T, stringsAsFactors=FALSE)
 
   by.month.df = tbl_df(by.month)
 
+  unique(by.month$region) # there are NAs
+
+
+## replace NAs with "Other":
+  ind = which(is.na(by.month$region))
+  by.month$region[ind] = "Other" # "other" includes military bases and protectorates
+
+
+
+#--------------------------------------------------------------------------#
+
+
+
 ## plot by region
 
-  ggplot(by.month, aes(y=mean_del, x=date, group=region, colour=region)) +
-    geom_line() +
-    coord_equal() +
-    facet_grid(region~.)
-    ggtitle("Average of Delayed Flights by Region")
+  library(ggplot2)
+
+  by.month$date = as.Date(by.month$date)
+
+  ggplot() +
+    geom_line(by.month, mapping = aes(y=mean_del, x=date, group=region, colour=region)) +
+    facet_wrap(~region, nrow=4) +
+    ggtitle("Monthly Average Delay Due to Weather by Region, 6/2003 - 12/2013") +
+    theme(axis.title.x=element_blank(),
+        axis.title.y=element_blank(),legend.position="none") +
+    scale_x_date()
 
   ggsave("popn_average.png", width=7, height=4, units="in", dpi=400)
 
-  ggplot(by.month, aes(y=p, x=date, group=region, colour=region)) +
-    geom_line() +
-    ggtitle("Proportion of Delayed Flights by Region")
+
+  ggplot() +
+    geom_line(by.month, mapping = aes(y=p, x=date, group=region, colour=region)) +
+    facet_wrap(~region, nrow=4) +
+    ggtitle("Proportion of Delayed Flights by Region, 6/2003 - 12/2003") +
+    theme(axis.title.x=element_blank(),
+        axis.title.y=element_blank(),legend.position="none") +
+    scale_x_date()
 
   ggsave("popn_prop.png", width=7, height=4, units="in", dpi=400)
+
+
+
+
 
 
 
