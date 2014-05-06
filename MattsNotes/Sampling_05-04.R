@@ -1,7 +1,7 @@
 ## 5.4 - matt sampling. 
 
 ## i have concerns about what was done.
-
+# explore Nandhita's sampling results file.
 
 n.samp <- read.csv("data/samp13_14.csv", header=T)
 n.samp
@@ -21,7 +21,7 @@ sum(n.samp$n_flights)
 
 library(dplyr)
 
-iata.region = read.csv("data/iata_by_region.csv", header=T)
+iata.region = read.csv("data/iata_by_region.csv", header=T, stringsAsFactors=F)
 
 # fiddling with pulling regional lists of airports
 west.list <- iata.region%.%filter(Region=="West")%.%select(origin)
@@ -233,3 +233,43 @@ rand.data %.% ungroup() %.% group_by(Region, year, month) %.%
             n_wdelay=sum(n_wdelay, na.rm=T))
 
 ## this gives me a 144 row table, which is 12 months x 12 REgions.
+
+
+# ---------------------------------- #
+# modify teh loop to pull 2.5% of observations per strata, and to not summarize.
+
+rand.data <- data.frame()
+n.samp <- 1000L
+
+#for(i in 1:length(years)){  # years
+for(i in 9:11){
+  for(j in 1:12){           # months
+    for(k in 1:12) {        # Regions
+      yr = years[i]
+      mo = j
+      o.list = r.list[[k]]
+      
+      qry = flights %.% select(year, month, origin, weatherdelay) %.%
+        filter(year==yr, month==mo, origin %in% o.list, random()<0.0025)
+      
+      dat.temp <- collect(qry)
+      
+      rand.data <- rbind(rand.data, dat.temp)
+      
+    } 
+  }
+}
+
+# running for 1 year 2003, got 160,000 lines? that's a weeee bit more than the 14,000 I was expectin
+head(rand.data)
+rand.2003 <- left_join(rand.data, iata.region, on="origin")
+summ.2003 <- rand.2003 %.% group_by(Region) %.%  summarise(n=n())
+#looks like we pulled around 30% on average, instead of 2%
+# replacing "random() < 0.025" with "random < 0.0025"
+
+## more like expected.
+# run for yrs 2-4 - have 70276 obs.
+# run for yrs 5-8 - hae 139,033
+# run for yrs 9-11 - now 185,527 obs total.
+
+write.csv(rand.data, "data/sample_data.csv", row.names=F)
