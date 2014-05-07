@@ -14,7 +14,9 @@ hist(summ.by.r$n_flights)
 
 summ.by.r <-ungroup(summ.by.r)
 reg <- summ.by.r %.% group_by(region) %.% 
-  summarise(avg_n_flights=mean(n_flights), avg_dly_month = mean(sum_del, na.rm=T), sd_dly_mon = sd(sum_del, na.rm=T))
+  summarise(ttl_flights=sum(n_flights)) # shouldn't we look at the total number of flights in each region?
+tbl_df(reg)
+
 #    Source: local data frame [12 x 2]
 #    
 #    region avg_flights
@@ -31,6 +33,29 @@ reg <- summ.by.r %.% group_by(region) %.%
 #    11 UpperMidwest   32798.299
 #    12         West   81408.622
 
-reg2 <- reg %.% mutate( n.025 = avg_n_flights*0.025)
+
+#           region ttl_flights
+# 1        Alaska      433115
+# 2       Central    10739601
+# 3        Hawaii     1057134
+# 4  NorthRockies      824159
+# 5     Northeast     9630258
+# 6     Northwest     2281355
+# 7         Other      384997
+# 8         South     9897580
+# 9     Southeast    14645704
+# 10    Southwest     6744274
+# 11 UpperMidwest     4165384
+# 12         West    10338895
+
+
+
+
+reg2 <- reg %.% mutate(n.025 = ttl_flights*0.025)
 reg2
-sum(reg2$n.025)*10 =# 140,000 lines of data if we do an approximate 2.5% sample.
+sum(reg2$n.025) # =140,000 lines of data if we do an approximate 2.5% sample.
+                # =1778561 lines
+
+
+
+
