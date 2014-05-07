@@ -4,7 +4,7 @@
 
 
 ### acquiring population data
-library(dplyr)
+  library(dplyr)
 
 ## connecting to the database:
   endpoint = "flights.cwick.co.nz"
@@ -51,66 +51,78 @@ library(dplyr)
   r.list <- list(ak.list, c.list, hi.list, nr.list, ne.list, nw.list, so.list, se.list, sw.list, uk.list, um.list, we.list)
 
 
-rand.data <- data.frame()
+  rand.data <- data.frame()
 
-for(j in 6:12){           # months
-    for(k in 1:12) {        # Regions
-      yr = years[1]
-      mo = j
-      o.list = r.list[[k]]
+# sample for 2003, June to Dec:
+  for(j in 6:12){           # months
+      for(k in 1:12) {        # Regions
+        yr = years[1]
+        mo = j
+        o.list = r.list[[k]]
       
-      qry = flights %.% select(year, month, origin, weatherdelay) %.%
-        filter(year==yr, month==mo, origin %in% o.list, random()<0.025)
+        qry = flights %.% select(year, month, origin, weatherdelay) %.%
+          filter(year==yr, month==mo, origin %in% o.list, random()<0.025)
       
-      dat.temp <- collect(qry)
+        dat.temp <- collect(qry)
       
-      rand.data <- rbind(rand.data, dat.temp)
+        rand.data <- rbind(rand.data, dat.temp)
       
     } 
   }
 
-#for(i in 1:length(years)){  # years
-for(i in 2:11){
-  for(j in 1:12){           # months
-    for(k in 1:12) {        # Regions
-      yr = years[i]
-      mo = j
-      o.list = r.list[[k]]
+
+# Sample for all other years: 2004--2013
+  for(i in 2:11){
+    for(j in 1:12){           # months
+      for(k in 1:12) {        # Regions
+        yr = years[i]
+        mo = j
+        o.list = r.list[[k]]
       
-      qry = flights %.% select(year, month, origin, weatherdelay) %.%
-        filter(year==yr, month==mo, origin %in% o.list, random()<0.025)
+        qry = flights %.% select(year, month, origin, weatherdelay) %.%
+          filter(year==yr, month==mo, origin %in% o.list, random()<0.025)
       
-      dat.temp <- collect(qry)
+        dat.temp <- collect(qry)
       
-      rand.data <- rbind(rand.data, dat.temp)
+        rand.data <- rbind(rand.data, dat.temp)
       
-    } 
+      } 
+    }
   }
-}
 
 # running for 1 year 2003, got 160,000 lines? that's a weeee bit more than the 14,000 I was expectin
-head(rand.data,n=30L)
-nrow(rand.data)
-rand.2003 <- left_join(rand.data, iata.region, on="origin")
-summ.2003 <- rand.2003 %.% group_by(Region) %.%  summarise(n=n())
+  head(rand.data,n=30L)
+  nrow(rand.data)
+  rand.2003 <- left_join(rand.data, iata.region, on="origin")
+  summ.2003 <- rand.2003 %.% group_by(Region) %.%  summarise(n=n())
 #looks like we pulled around 30% on average, instead of 2%
 # replacing "random() < 0.025" with "random < 0.0025"
 
-## more like expected.
-# run for yrs 2-4 - have 70276 obs.
-# run for yrs 5-8 - hae 139,033
-# run for yrs 9-11 - now 185,527 obs total.
-
-write.csv(rand.data, "data/sample_data.csv", row.names=F)
+  write.csv(rand.data, "data/sample_data.csv", row.names=F)
 
 
-
-
-qry = flights %.% select(year, month, origin, weatherdelay) %.%
-        filter(year==2006, month==4, random()<0.0025)
-
-
-explain(qry)
+  
+  
+  
+  dat = read.csv("data/sample_data.csv", header=T)
+  dim(dat)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 
