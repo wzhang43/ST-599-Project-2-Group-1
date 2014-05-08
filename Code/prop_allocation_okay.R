@@ -14,6 +14,8 @@
     arrange(region, year, month)
   tbl_df(strat.p)
   
+  write.csv(strat.p, "data/popn_strata_size.csv", row.names=F)
+  
   strat.p = mutate(strat.p, strat.var = strat.size*strat.prop*(1-strat.prop)/(strat.size-1)) # sample variance for each stratum
   
   
