@@ -72,7 +72,7 @@
 
 
 # Sample for all other years: 2004--2013
-  for(i in 2:11){
+  for(i in 6:11){
     for(j in 1:12){           # months
       for(k in 1:12) {        # Regions
         yr = years[i]
@@ -89,6 +89,11 @@
       } 
     }
   }
+  
+  # for 2003: 95129 oobs
+  # yrs 2:5 :816725 ttl
+  # yrs 6:11
+  
 
 # running for 1 year 2003, got 160,000 lines? that's a weeee bit more than the 14,000 I was expectin
   head(rand.data,n=30L)
@@ -97,8 +102,9 @@
   summ.2003 <- rand.2003 %.% group_by(Region) %.%  summarise(n=n())
 #looks like we pulled around 30% on average, instead of 2%
 # replacing "random() < 0.025" with "random < 0.0025"
+  ## update - former is because i was looking at 2.5% for a month, vs 2.5% for a year. oops- m.e.
 
-  write.csv(rand.data, "data/sample_data.csv", row.names=F)
+  write.csv(rand.data, "data/sample_data_2-5pct.csv", row.names=F)
 
 
   
