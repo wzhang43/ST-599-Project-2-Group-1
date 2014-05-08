@@ -1,6 +1,6 @@
 
 
-        ### stratified sampling ###
+                 ###------ stratified sampling ------###
 
 
 ### acquiring population data
@@ -107,28 +107,122 @@
   write.csv(rand.data, "data/sample_data_2-5pct.csv", row.names=F)
 
 
+
   
   
   
-  dat = read.csv("data/sample_data.csv", header=T)
+#---------------------------------------------------------------------------#  
+  
+  
+  
+  
+  
+                    #### sample data analysis ####
+  
+  dat = read.csv("data/sample_data_2-5pct.csv", header=T)
   dim(dat)
+  head(dat, n=30L)
+  
+## add region label to each observation:
+  reg = read.csv("data/iata_by_region.csv", header=T)
+  dat.region = left_join(dat, reg, by="origin")
+  
+  head(dat.region, n=30L)
+  
+
+## pull information on stratum sizes:
+  popn.strat.size = read.csv("data/popn_strata_size.csv", header=T)
+  tbl_df(popn.strat.size)
+  popn.size = popn.strat.size %.%
+    mutate(Region=region) %.%
+    select(Region, year, month, strat.size) 
+  
+  tbl_df(popn.size)
+  
+  by.region = dat.region %.%
+    group_by(Region, year, month) %.%
+    summarise(n_flights=n(), n_delay=sum(weatherdelay>0,na.rm=T)) %.%
+    mutate(prop_delay=n_delay/n_flights)  
+  tbl_df(by.region)
+    
+  
+## include the strata size info into sample summary:
+  by.region.size = left_join(by.region, popn.size)
+  tbl_df(by.region.size)
+  
+  
+  by.region.summary = by.region.size %.%
+    mutate(prop_se = ((1-n_flights/strat.size)*prop_delay*(1-prop_delay)/(n_flights-1))^(1/2))  
+  tbl_df(by.region.summary)
+  
+  
+## pointwise confidence intervals
+  z = 1.96
+  
+  by.region.ci = by.region.summary %.%
+    mutate(lower.bound = prop_delay-z*prop_se, upper= ifelse(prop_delay==0, 3/n_flights, prop_delay+z*prop_se)) %.%
+    mutate(lower = ifelse(lower.bound<=0, 0, lower.bound)) %.%
+    select(Region:prop_se,upper,lower)
+  # comment: for zero proportions, we used "rule of three" to construct 95% CI, see
+  # wikipage: http://en.wikipedia.org/wiki/Rule_of_three_%28statistics%29
+  
+  tbl_df(by.region.ci)
+  
+  write.csv(by.region.ci, "data/sample_summary_ci.csv", row.names=F)
   
   
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+#-----------------------------------------------------------------------------#  
   
   
 
+            #### plot proportion and confidence limits ####
+  
+  samp.ci = read.csv("data/sample_summary_ci.csv", header=T)
+
+  
+## add date: each month is identified by the first day of the month
+  library(lubridate)
+  
+  samp.ci = mutate(samp.ci, dt.str=paste(year, month, "1", sep="-"))
+  
+  samp.ci$date = ymd(samp.ci$dt.str)
+  
+  tbl_df(samp.ci)
+
+  sum(is.na(samp.ci$prop_delay))
+
+  
+  
+## plot by region
+
+  library(ggplot2)
+  library(reshape2)
+
+  samp.ci$date = as.Date(samp.ci$date)
+  tbl_df(samp.ci)
+
+  
+  ggplot() +
+    geom_line(samp.ci, mapping = aes(y=prop_delay, x=date, group=Region), colour="#000066") +
+    geom_line(samp.ci, mapping = aes(y=upper, x=date, group=Region), linetype="blank") +
+    geom_ribbon(samp.ci, mapping=aes(x=date, ymin=prop_delay, ymax=upper), fill="grey", alpha=0.8) +
+    geom_ribbon(samp.ci, mapping=aes(x=date, ymin=-0.003, ymax=prop_delay), fill="grey", alpha=0.8) +
+    facet_wrap(~Region, nrow=4) +
+    ggtitle("Proportion of Flights Delayed Due to Weather by Region, 6/2003 - 12/2013") +
+    theme(axis.title.x=element_blank(),
+        axis.title.y=element_blank(),legend.position="none") +
+    scale_x_date() +
+    scale_y_continuous(limits=c(-0.05,0.15))
+
+  ggsave("samp_prop.png", width=8, height=5, units="in", dpi=400)
 
 
+
+  
+  
+  
+  
+  
+  
