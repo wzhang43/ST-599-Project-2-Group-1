@@ -154,6 +154,7 @@ write.csv(by.reg.yr, "data/mon_by_reg_summ.csv", row.names=F)
 
 samp.dat <- tbl_df(read.csv("data/sample_summary_ci.csv"))
 
+## adding up flights by region and month, and then determining proportion and SE for each strata.
 samp.mon.reg <- samp.dat %.% group_by(month, Region) %.% summarise( n_ttl=sum(n_flights), n_del=sum(n_delay), p=n_del/n_ttl, N.h = sum(strat.size), se.p=sqrt((1-n_ttl/N.h)*((p*(1-p))/(n_ttl-1)) ))
 samp.mon.reg
 

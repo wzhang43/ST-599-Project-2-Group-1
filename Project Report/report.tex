@@ -6,6 +6,7 @@
 \usepackage{amsmath}
 \usepackage{enumerate}
 \setcounter{secnumdepth}{5}
+\usepackage{fullpage}
 
 \begin{document}
 \begin{titlepage}
@@ -34,22 +35,27 @@
     \end{center}
 \end{titlepage}
 
-
+\pagenumbering{gobble}
 
 \section{Introduction \& Question of Interest}
-The data we used in this project is Airline On Time Statistics from the Bureau of Transportation Statistics, available from January 1995 through February 2014. The population used in this project includes data from June 2003 to December 2013 during which weather-related flight delays are noted. Our question of interest is:\\
-\textbf{Are there geographical patterns in weather-related flight delays, and do these change over time?}
+Our question of interest is: \textbf{Are there geographical patterns in weather-related flight delays, and do these change over time?}
+
+The data we used in this project is Airline On Time Statistics from the Bureau of Transportation Statistics, available from January 1995 through February 2014. The population used in this project includes data from June 2003 to December 2013 as weather-related flight delays were not recorded prior to June 2003. 
+
+For calculating our proportion, any flight with a weather delay value greater than 0 was counted as "delayed," regardless of severity. The denominator was a count of all flights for the strata, including those with a weather delay value of ``NA''. 
 
 \section{Results}
 \subsection{Population Based Analysis}
 \subsubsection{Assumptions}
-The data from 6/2003 to the latter part of 2007 is relatively free of "NA" answers in the "weatherdelay" column. However, beginning in late 2007/early 2008, the amount of "NA" answers increases dramatically. We made the assumption that "NA" indicated no delay, but that may not be accurate. This applies to sampling, as well.
+The data from 6/2003 to the latter part of 2007 is relatively free of ``NA'' answers in the weather delay column. However, beginning in late 2007/early 2008, the amount of ``NA'' answers increases dramatically. We made the assumption that ``NA'' indicated no delay, but that may not be accurate. This applies to sampling, as well.
 
-Because we were dealing with geographic differences, we made the assumption that weather would be similar in climate regions. (This also gave us less strata to deal with.) We used data from NOAA to define the regions.\footnote{\url{http://www.ncdc.noaa.gov/monitoring-references/maps/us-climate-regions.php}} We added Alaska and Hawaii as their own region, and lumped any airport we could not link to a state into an "Other" region. Despite the NOAA endorsement, this assumption could be problematic, as we know that climates vary within state (see Eastern vs. Western Oregon or Washington, for example.) For the purpose of this analysis, regions are determined based on the origin of the flight, not the destination.
+Because we were dealing with geographic differences, we made the assumption that weather would be similar in climate regions. (This also gave us less strata to deal with.) We used data from NOAA to define the regions.\footnote{\url{http://www.ncdc.noaa.gov/monitoring-references/maps/us-climate-regions.php}} We added Alaska and Hawaii as their own region, and lumped any airport we could not link to a state into an ``Other'' region. Despite the NOAA endorsement, this assumption could be problematic, as we know that climates vary within state (see Eastern vs. Western Oregon or Washington, for example.) 
 
-While weather does not neatly delineate along arbitrary month boundaries, we also assumed that the weather within a month would be "reasonably consistent", at least for the purposes of this analysis, and aggregated to the month level for our analysis.
+For the purpose of this analysis, regions are determined based on the origin of the flight, not the destination. This decision assumes that the weather delay is on the side of origin, which it may or may not be. Future work would involve regional grouping based on destination airport.
 
-For calculating our proportion, any flight with a weather delay value greater than 0 was counted as "delayed," regardless of severity. The denominiator was a count of all flights for the strata, including those with a weather delay value of "NA." 
+While weather does not neatly delineate along arbitrary month boundaries, we also assumed that the weather within a month would be "reasonably consistent", at least for the purposes of this analysis, and aggregated to the month level.
+
+
 
 \subsection{Population Results}
 When aggregated to a monthly basis, by region, we see higher percentages of delayed flights in the winter months, as we would expect. The highest winter proportions are in the Central region, which encompasses the Ohio Valley. We suspect this is due in part to Chicago being a major hub for many airlines, and having cold/snowy winters.
@@ -61,29 +67,39 @@ Interestingly, there is a bump in weather-delayed flights in Jun, Jul and August
 
 \subsection{Sample Based Analysis}
 \subsubsection{Sampling Technique}
-Our strata was a single region, for a single month. Each strata had a different number of flights per month, ranging from an average of 3,000 in Alaska to an average of 115,000 in the Southwest. We decided to use proportional sampling, and sampled approximately 2.5\% of the flights in each strata. This gave us a reasonable amount in the smaller strata (~75 per month out of 3000) and a sufficient amount in the larger strata. 
+Our strata was a single region, for a single month. Each strata had a different number of flights per month, ranging from an average of 3,000 in Alaska to an average of 115,000 in the Southwest. We decided to use proportional sampling, and sampled approximately 2.5\% of the flights in each strata. This gave us a reasonable amount in the smaller strata (~75 per month out of 3000) and a very sufficient amount in the larger strata. 
 
 \subsubsection{Assumptions}
 We carried the assumptions from our population analysis through to the sampling analysis.
 
 \subsection{Sampling Results}
+The sampling results were very similar to the population results. We see the same pattern when looking at the heat map of proportions. Nothing is over 4\%, there is the same bump in delays in the summer in the south. There are a few strata where we observed no delayed flights in the sample, but these correspond to areas in the population where there was a very low percentage of delayed flights.
 
+The one exception is the Other region for March, which had 0\% in the sample but 0.2\% in the population data. We are not concerned about this, because the Other region is not geographically consistent and had a low overall number of flights.
 
+The standard errors for our sample were all below 0.5\%, and generally below 0.25\%.
 
+\subsection{Conclusion}
+As one would expect, there are seasonal differences in the amount of flights delayed by weather. Surprisingly, there are a large amount of summer delays, especially in the South and Southeast. 
 
+We do see regional differences in the amount of delays. 
+
+Over the long term, there does not appear to be any significant shift in regional differences. (Graphs are in presentation due to space.)
 
 \section{Obstacles \& Solutions}
-Figuring out how to sample by our strata (region/month/year)
+Defining our regions and assigning regions to flights. The NOAA map gave us the regions we wanted, and left-join was very helpful in associating the database data with the regions. We saved the IATA, State and Region for the 360 unique airports in a .csv file so we could grab it when needed.
 
-Defining our regions and assigning regions to flights: left-join was very helpful, we saved the IATA, State and Region for the 360 unique airports in a .csv file so we could grab it when needed.
+Figuring out how to sample by our strata (region/month/year). SQL allows a WHERE( \textless var\textgreater  IN \textless list\textgreater) syntax, and we were able to accomplish this by storing the airport IATA designations in a list for each region, and then plugging the list in as a variable in our filter statement: filter( origin \%in\% list)
 
-There were 5 IATA codes not respresented in the airports.csv file. Once we identified the issue, it was a simple matter to look them up on wikipedia. 
+Dealing with ``NA'' answers: Prior to June 2003, ``NA'' was due to the variable not being tracked. It was tracked consistently from 6/2003 to late 2007. In late 2007, many flights once again had an ``NA'' value. We could not find an official reason. We dealt with this by assuming ``NA'' meant ``no delay.''
 
-Confidence intervals for 0 proportions? Rule of 3: 3/n.h gives upper bound of 95\% CI
+There were 5 IATA codes in our data not represented in the airports.csv file. Once we identified the issue, it was a simple matter to look them up on Wikipedia. 
 
-"Other" Region - not geographically consistent, small number of airports, solved by ignoring it.
+Confidence intervals for 0 proportions: We used the rule of 3: 3/n.h gives upper bound of 95\% CI
 
-Thinking about how to summarize it in a way that was consice and made sense and didn't aggregate too much. Used facets, colors, aggregated when we needed, geom-ribbon creates shades between lines.
+"Other" Region: not geographically consistent, small number of airports, solved by generally ignoring it.
+
+Thinking about how to summarize data for 12 months for 11.5 years for 12 regions in a way that was concise and made sense and didn't aggregate too much. For graphing, used facets, colors, aggregated when we needed, geom-ribbon creates shades between lines.
 
 
 
