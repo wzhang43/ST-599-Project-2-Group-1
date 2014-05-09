@@ -45,7 +45,7 @@ The data we used in this project is Airline On Time Statistics from the Bureau o
 \subsubsection{Assumptions}
 The data from 6/2003 to the latter part of 2007 is relatively free of "NA" answers in the "weatherdelay" column. However, beginning in late 2007/early 2008, the amount of "NA" answers increases dramatically. We made the assumption that "NA" indicated no delay, but that may not be accurate. This applies to sampling, as well.
 
-Because we were dealing with geographic differences, we made the assumption that weather would be similar in climate regions. (This also gave us less strata to deal with.) We used data from NOAA to define the regions.\footnote{http://www.ncdc.noaa.gov/monitoring-references/maps/us-climate-regions.php} We added Alaska and Hawaii as their own region, and lumped any airport we could not link to a state into an "Other" region. Despite the NOAA endorsement, this assumption could be problematic, as we know that climates vary within state (see Eastern vs. Western Oregon or Washington, for example.) 
+Because we were dealing with geographic differences, we made the assumption that weather would be similar in climate regions. (This also gave us less strata to deal with.) We used data from NOAA to define the regions.\footnote{\url{http://www.ncdc.noaa.gov/monitoring-references/maps/us-climate-regions.php}} We added Alaska and Hawaii as their own region, and lumped any airport we could not link to a state into an "Other" region. Despite the NOAA endorsement, this assumption could be problematic, as we know that climates vary within state (see Eastern vs. Western Oregon or Washington, for example.) For the purpose of this analysis, regions are determined based on the origin of the flight, not the destination.
 
 While weather does not neatly delineate along arbitrary month boundaries, we also assumed that the weather within a month would be "reasonably consistent", at least for the purposes of this analysis, and aggregated to the month level for our analysis.
 
@@ -56,7 +56,7 @@ When aggregated to a monthly basis, by region, we see higher percentages of dela
 
 No month or region exceeds 4\% in the proportion of delayed flights.
 
-Interestingly, there is a bump in weather-delayed flights in Jun, Jul and August for the South, Southeast, Northeast and Upper Midwest. This may coincide with tornado season\footnote{http://www1.ncdc.noaa.gov/pub/data/cmb/images/tornado/clim/tornadoes_bymonth.png} but may not. We were surprised that the South was consistently above 1\%, (only 3 months below 1.5\%) in contrast to other regions, including the Northern Rockies and the Northeast.
+Interestingly, there is a bump in weather-delayed flights in Jun, Jul and August for the South, Southeast, Northeast and Upper Midwest. This may coincide with tornado season but may not. \footnote{\url{http://www1.ncdc.noaa.gov/pub/data/cmb/images/tornado/clim/tornadoes_bymonth.png}} We were surprised that the South was consistently above 1\%, (only 3 months below 1.5\%) in contrast to other regions, including the Northern Rockies and the Northeast.
 
 
 \subsection{Sample Based Analysis}
@@ -66,9 +66,7 @@ Our strata was a single region, for a single month. Each strata had a different 
 \subsubsection{Assumptions}
 We carried the assumptions from our population analysis through to the sampling analysis.
 
-
-\section{Results \& Findings}
-
+\subsection{Sampling Results}
 
 
 
@@ -76,11 +74,16 @@ We carried the assumptions from our population analysis through to the sampling 
 
 \section{Obstacles \& Solutions}
 Figuring out how to sample by our strata (region/month/year)
-Defining our regions.
-??
+
+Defining our regions and assigning regions to flights: left-join was very helpful, we saved the IATA, State and Region for the 360 unique airports in a .csv file so we could grab it when needed.
+
 There were 5 IATA codes not respresented in the airports.csv file. Once we identified the issue, it was a simple matter to look them up on wikipedia. 
 
-Other category - not geographically consistent, small number of airports, solved by ignoring it.
+Confidence intervals for 0 proportions? Rule of 3: 3/n.h gives upper bound of 95\% CI
+
+"Other" Region - not geographically consistent, small number of airports, solved by ignoring it.
+
+Thinking about how to summarize it in a way that was consice and made sense and didn't aggregate too much. Used facets, colors, aggregated when we needed, geom-ribbon creates shades between lines.
 
 
 
