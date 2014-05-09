@@ -205,10 +205,10 @@
 
   
   ggplot() +
-    geom_line(samp.ci, mapping = aes(y=prop_delay, x=date, group=Region), colour="#000066") +
+    geom_line(samp.ci, mapping = aes(y=prop_delay, x=date, group=Region), colour="#660033") +
     geom_line(samp.ci, mapping = aes(y=upper, x=date, group=Region), linetype="blank") +
-    geom_ribbon(samp.ci, mapping=aes(x=date, ymin=prop_delay, ymax=upper), fill="grey", alpha=0.8) +
-    geom_ribbon(samp.ci, mapping=aes(x=date, ymin=-0.003, ymax=prop_delay), fill="grey", alpha=0.8) +
+    geom_ribbon(samp.ci, mapping=aes(x=date, ymin=prop_delay, ymax=upper), fill="cyan", alpha=0.5) +
+    geom_ribbon(samp.ci, mapping=aes(x=date, ymin=-0.003, ymax=prop_delay), fill="cyan", alpha=0.5) +
     facet_wrap(~Region, nrow=4) +
     ggtitle("Proportion of Flights Delayed Due to Weather by Region, 6/2003 - 12/2013") +
     theme(axis.title.x=element_blank(),
