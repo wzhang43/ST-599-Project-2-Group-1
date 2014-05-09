@@ -115,7 +115,7 @@ region.lst <- read.csv("data/iata_by_region.csv", header=T, stringsAsFactors=F)
 p.data <- tbl_df(left_join(p.data, region.lst, on="origin"))
 p.data
 
-by.reg.yr.mon <- p.data %.% group_by(Region, year, month) %.% summarise(n_flights=sum(n_flights), n_wdelay=sum(n_wdelay))
+by.reg.yr.mon <- p.data %.% group_by(Region, year, month) %.% summarise(n_ttl=sum(n_flights), n_del=sum(n_wdelay), p=n_del/n_ttl)
 
 #okay, so the graphs are going to look at proportion in a single region, through time.
 #we need a way to compare proportions between geographical regions.
@@ -143,3 +143,18 @@ write.csv(by.reg.mon, "data/regon_by_month_summ.csv", row.names=F)
 
 # yay pivot tables. <10 minutes, done.
 
+#### 5/9
+
+by.reg.yr.mon <- ungroup(by.reg.yr.mon)
+by.reg.yr <- by.reg.yr.mon %.% group_by(month, Region) %.% summarise(avg_p=mean(p))
+by.reg.yr
+
+write.csv(by.reg.yr, "data/mon_by_reg_summ.csv", row.names=F)
+
+
+samp.dat <- tbl_df(read.csv("data/sample_summary_ci.csv"))
+
+samp.mon.reg <- samp.dat %.% group_by(month, Region) %.% summarise( n_ttl=sum(n_flights), n_del=sum(n_delay), p=n_del/n_ttl, N.h = sum(strat.size), se.p=sqrt((1-n_ttl/N.h)*((p*(1-p))/(n_ttl-1)) ))
+samp.mon.reg
+
+write.csv(samp.mon.reg, "data/samp_mon_by_reg_summ.csv", row.names=F)
