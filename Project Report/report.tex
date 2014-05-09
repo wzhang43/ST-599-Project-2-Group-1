@@ -45,7 +45,7 @@ The data we used in this project is Airline On Time Statistics from the Bureau o
 \subsubsection{Assumptions}
 The data from 6/2003 to the latter part of 2007 is relatively free of "NA" answers in the "weatherdelay" column. However, beginning in late 2007/early 2008, the amount of "NA" answers increases dramatically. We made the assumption that "NA" indicated no delay, but that may not be accurate. This applies to sampling, as well.
 
-Because we were dealing with geographic differences, we made the assumption that weather would be similar in climate regions. (This also gave us less strata to deal with.) We used data from NOAA to define the regions.\footnote{http://www.ncdc.noaa.gov/monitoring-references/maps/us-climate-regions.php} We added Alaska and Hawaii as their own region, and lumped any airport we could not link to a state into an "Other" region.
+Because we were dealing with geographic differences, we made the assumption that weather would be similar in climate regions. (This also gave us less strata to deal with.) We used data from NOAA to define the regions.\footnote{http://www.ncdc.noaa.gov/monitoring-references/maps/us-climate-regions.php} We added Alaska and Hawaii as their own region, and lumped any airport we could not link to a state into an "Other" region. Despite the NOAA endorsement, this assumption could be problematic, as we know that climates vary within state (see Eastern vs. Western Oregon or Washington, for example.) 
 
 While weather does not neatly delineate along arbitrary month boundaries, we also assumed that the weather within a month would be "reasonably consistent", at least for the purposes of this analysis, and aggregated to the month level for our analysis.
 
@@ -78,8 +78,9 @@ We carried the assumptions from our population analysis through to the sampling 
 Figuring out how to sample by our strata (region/month/year)
 Defining our regions.
 ??
+There were 5 IATA codes not respresented in the airports.csv file. Once we identified the issue, it was a simple matter to look them up on wikipedia. 
 
-
+Other category - not geographically consistent, small number of airports, solved by ignoring it.
 
 
 
