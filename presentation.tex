@@ -53,42 +53,75 @@ Are there geographical patterns in weather-related flight delays, and do these c
 Topics 
 \begin{enumerate}
 \item Population based analysis 
-\item Sample Based Analysis
+\item Sampling Based Analysis
 \end{enumerate}
 \end{frame}
 
 \subsection{Population Based Analysis}
 \begin{frame}
-\frametitle{Population Based}
-\begin{center} 
+\frametitle{Assumptions} 
+\begin{itemize}
+\item NA $\rightarrow$ No Delay
+\item For Proportion
+\begin{itemize}
+\item Weather delay value greater than 0 $\rightarrow$ 'Delayed' regardless of severity 
+\item Denominator $\rightarrow$ count of all flights including NA
+\end{itemize}
+\item Weather within a month is 'reasonably consistent'
+\item Defined regions using NOAA 
+\begin{itemize}
+\item  Added Alaska and Hawaii as their own region
+\item Lumped unlinked airport into an 'Other' region
+\end{itemize}
+\item Weather is similar in climate regions
+\end{itemize}
+\end{frame}
 
-\end{center}
+\begin{frame}
+\frametitle{Population Based Results}
+PLOTS\\
+RESULTS
 \end{frame}
 
 \subsection{Sampling Based Analysis}
 \begin{frame}
-\frametitle{Sampling Technique}
-\begin{center} 
+\frametitle{Assumptions}
+\begin{center}
+Same as that of Population Based Analysis 
 \end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Sampling Technique}
+\begin{itemize}
+\item Strata $\rightarrow$ Single region for single month
+\item Number of flights per month ranging from an average of 3,000 in Alaska to an average of 115,000 in the Southwest
+\item Proportional sampling $\rightarrow$  sampled approximately 2.5\% of the flights in each
+strata
+\end{itemize} 
+\end{frame}
+
+\begin{frame}
+\frametitle{Sample Based Results}
+PLOTS\\
+RESULTS
 \end{frame}
 
 
 \section{Obstacles and Solutions }
 \begin{frame}
 \frametitle{Obstacles and Solutions}
-
+\begin{itemize}
+\item Add
+\end{itemize}
 \end{frame}
 
-\begin{frame}
-\frametitle{Obstacles and Solutions}
-
-\end{frame}
 
 \section{Future Work}
 \begin{frame}
 \frametitle{Future Work}
 \begin{itemize}
-\item add
+\item Add
 \end{itemize}
 \end{frame}
 
