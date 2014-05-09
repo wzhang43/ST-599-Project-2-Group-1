@@ -167,17 +167,6 @@ library(dplyr)
   by.month$date = as.Date(by.month$date)
 
   ggplot() +
-    geom_line(by.month, mapping = aes(y=mean_del, x=date, group=region, colour=region)) +
-    facet_wrap(~region, nrow=4) +
-    ggtitle("Monthly Average Delay Due to Weather by Region, 6/2003 - 12/2013") +
-    theme(axis.title.x=element_blank(),
-        axis.title.y=element_blank(),legend.position="none") +
-    scale_x_date()
-
-  ggsave("popn_average.png", width=7, height=4, units="in", dpi=400)
-
-
-  ggplot() +
     geom_line(by.month, mapping = aes(y=p, x=date, group=region, colour=region)) +
     facet_wrap(~region, nrow=4) +
     ggtitle("Proportion of Delayed Flights by Region, 6/2003 - 12/2003") +
@@ -185,7 +174,7 @@ library(dplyr)
         axis.title.y=element_blank(),legend.position="none") +
     scale_x_date()
 
-  ggsave("popn_prop.png", width=7, height=4, units="in", dpi=400)
+  ggsave("popn_prop.png", width=8, height=5, units="in", dpi=400)
 
 
 

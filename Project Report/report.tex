@@ -1,0 +1,87 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{url,graphicx,tabularx,array,geometry}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\setcounter{secnumdepth}{5}
+
+\begin{document}
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+        
+        \Huge
+        \textbf{STAT 599 - Statistical Computing and Big Data}
+        
+        \vspace{1cm}
+        \LARGE
+        PROJECT 2\\
+        Bureau of Transportation Statistics
+        
+        \vspace{8cm}
+        Presented and submitted by \\
+        \textbf{Mathew Edwards} \\
+        \textbf{Nandhita Narendra Babu} \\
+        \textbf{Wanli Zhang}
+        
+        \vspace{0.5cm}
+        Date of Submission : 12 May 2014
+        
+       
+        
+    \end{center}
+\end{titlepage}
+
+
+
+\section{Introduction \& Question of Interest}
+The data we used in this project is Airline On Time Statistics from the Bureau of Transportation Statistics, available from January 1995 through February 2014. The population used in this project includes data from June 2003 to December 2013 during which weather-related flight delays are noted. Our question of interest is:\\
+\textbf{Are there geographical patterns in weather-related flight delays, and do these change over time?}
+
+\section{Results}
+\subsection{Population Based Analysis}
+\subsubsection{Assumptions}
+The data from 6/2003 to the latter part of 2007 is relatively free of "NA" answers in the "weatherdelay" column. However, beginning in late 2007/early 2008, the amount of "NA" answers increases dramatically. We made the assumption that "NA" indicated no delay, but that may not be accurate. This applies to sampling, as well.
+
+Because we were dealing with geographic differences, we made the assumption that weather would be similar in climate regions. (This also gave us less strata to deal with.) We used data from NOAA to define the regions.\footnote{http://www.ncdc.noaa.gov/monitoring-references/maps/us-climate-regions.php} We added Alaska and Hawaii as their own region, and lumped any airport we could not link to a state into an "Other" region. Despite the NOAA endorsement, this assumption could be problematic, as we know that climates vary within state (see Eastern vs. Western Oregon or Washington, for example.) 
+
+While weather does not neatly delineate along arbitrary month boundaries, we also assumed that the weather within a month would be "reasonably consistent", at least for the purposes of this analysis, and aggregated to the month level for our analysis.
+
+For calculating our proportion, any flight with a weather delay value greater than 0 was counted as "delayed," regardless of severity. The denominiator was a count of all flights for the strata, including those with a weather delay value of "NA." 
+
+\subsection{Population Results}
+When aggregated to a monthly basis, by region, we see higher percentages of delayed flights in the winter months, as we would expect. The highest winter proportions are in the Central region, which encompasses the Ohio Valley. We suspect this is due in part to Chicago being a major hub for many airlines, and having cold/snowy winters.
+
+No month or region exceeds 4\% in the proportion of delayed flights.
+
+Interestingly, there is a bump in weather-delayed flights in Jun, Jul and August for the South, Southeast, Northeast and Upper Midwest. This may coincide with tornado season\footnote{http://www1.ncdc.noaa.gov/pub/data/cmb/images/tornado/clim/tornadoes_bymonth.png} but may not. We were surprised that the South was consistently above 1\%, (only 3 months below 1.5\%) in contrast to other regions, including the Northern Rockies and the Northeast.
+
+
+\subsection{Sample Based Analysis}
+\subsubsection{Sampling Technique}
+Our strata was a single region, for a single month. Each strata had a different number of flights per month, ranging from an average of 3,000 in Alaska to an average of 115,000 in the Southwest. We decided to use proportional sampling, and sampled approximately 2.5\% of the flights in each strata. This gave us a reasonable amount in the smaller strata (~75 per month out of 3000) and a sufficient amount in the larger strata. 
+
+\subsubsection{Assumptions}
+We carried the assumptions from our population analysis through to the sampling analysis.
+
+
+\section{Results \& Findings}
+
+
+
+
+
+
+\section{Obstacles \& Solutions}
+Figuring out how to sample by our strata (region/month/year)
+Defining our regions.
+??
+There were 5 IATA codes not respresented in the airports.csv file. Once we identified the issue, it was a simple matter to look them up on wikipedia. 
+
+Other category - not geographically consistent, small number of airports, solved by ignoring it.
+
+
+
+\end{document}
