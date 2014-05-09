@@ -7,10 +7,7 @@ library(ggplot2)
 
 #### -----------------------------------------------------------------------
 ##    5/4
-##  NOTE: the file popn_weather_data.csv on Git is  **NOT CURRENT**
-##    I didn't want to upload another large file w/o being sure about the contents. (1.8MB)
-##    e-mail me if you need the current file.
-##    graphics are from the current file.
+##  NOTE: Wanli updated the file 5/5
 ##
 #### -----------------------------------------------------------------------
 
@@ -58,9 +55,9 @@ by.month <- pd.f%.%group_by(year, month, region)%.%
 
 
 by.month <- mutate(by.month,  dt.str=paste(year, month, "1", sep="-"))
-str(by.month)
+#str(by.month)
 by.month$date <- ymd(by.month$dt.str)
-str(by.month)
+#str(by.month)
 
 # write this to file so it can be recalled later (hopefully the date stuff doesn't mutate.)
 write.csv(by.month, "data/Popn_summary.csv", row.names=F)
@@ -76,11 +73,32 @@ ggplot(by.month, aes(y=mean_del, x=date, group=region, colour=region))+geom_line
 ggplot(by.month, aes(y=p, x=date, group=region, colour=region))+geom_line()+ggtitle("Proportion of Delayed Flights by Region")
 
 
-## Sample size calculations
+## Sample size calculations - these are wrong.
 head(by.month)
 mean(by.month$mean_del) # 2.21
 sd(by.month$mean_del) #1.91497
 mean(by.month$p) #0.012
 
 
+# not useful
+ggplot(by.month, aes(x=month, y=mean_del, colour=region))+geom_point()
 
+# lets look at by region just aggregated to month
+by.month.ng <- ungroup(by.month)
+
+by.reg <- by.month.ng %.% group_by(region, month) %.%
+  summarise(mean_del.r=mean(mean_del), n_all.r=sum(n_all), n_del.r=sum(n_del), p=n_del.r/n_all.r)
+
+ggplot(by.reg, aes(y=region, x=mean_del.r, colour=month))+geom_point()+geom_line()
+#   This has lines within region, not useful
+
+ggplot(by.reg, aes(y=region, x=mean_del.r, colour=month))+geom_point()+geom_line(aes(group=month))
+#   this is a gobbeldy-gook mess.
+
+
+
+ggplot(wage.data.st, aes( reorder(factor(State),med_sch),y=med_sch, ymin=Q1_sch, ymax=Q3_sch, group=MIL, colour=factor(MIL_Status)))+geom_point(size=4, position=position_dodge(width=0.4))+
+  geom_errorbar( position=position_dodge(width=0.4), size=0.5)+
+  xlab("State")+ylab("School")+geom_line()+
+  scale_y_continuous(breaks=c(16,17,18,19,20,21,22, 23), labels=c("HS", "GED", "<1YR Coll", "Coll, ND", "AS", "BS", "MS", "Prof >BS"))+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("Median School (with IQR) by State & Service")
