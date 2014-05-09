@@ -10,6 +10,10 @@ summ.by.r <- p.by.r %.% group_by(region, year, month) %.%
 
 tbl_df(summ.by.r)
 
+ungroup(summ.by.r)
+
+reg = summ.by.r %.% ungroup() %.% group_by(region) %.% summarise(monthly_avg_flight=mean(n_flights))
+
 hist(summ.by.r$n_flights)
 
 summ.by.r <-ungroup(summ.by.r)
@@ -51,7 +55,7 @@ tbl_df(reg)
 
 
 
-reg2 <- reg %.% mutate(n.025 = ttl_flights*0.025)
+reg2 <- reg %.% mutate(n.025 = ttl_flights*0.0025)
 reg2
 sum(reg2$n.025) # =140,000 lines of data if we do an approximate 2.5% sample.
                 # =1778561 lines

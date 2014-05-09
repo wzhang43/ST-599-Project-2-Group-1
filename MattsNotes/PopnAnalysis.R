@@ -12,7 +12,7 @@ library(ggplot2)
 #### -----------------------------------------------------------------------
 
 
-popn.data <- read.csv("data/popn_weather_data.csv", header=T)
+popn.data <- read.csv("data/popn_weather_data.csv", header=T, stringsAsFactors=F)
 head(popn.data, n=50)
 
 
@@ -83,6 +83,7 @@ mean(by.month$p) #0.012
 # not useful
 ggplot(by.month, aes(x=month, y=mean_del, colour=region))+geom_point()
 
+
 # lets look at by region just aggregated to month
 by.month.ng <- ungroup(by.month)
 
@@ -102,3 +103,43 @@ ggplot(wage.data.st, aes( reorder(factor(State),med_sch),y=med_sch, ymin=Q1_sch,
   xlab("State")+ylab("School")+geom_line()+
   scale_y_continuous(breaks=c(16,17,18,19,20,21,22, 23), labels=c("HS", "GED", "<1YR Coll", "Coll, ND", "AS", "BS", "MS", "Prof >BS"))+
   theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("Median School (with IQR) by State & Service")
+=======
+## --------------------------------##
+# Population proportions
+
+p.data <- popn.data %.% filter( !(year==2003 & month < 6)) # grab everything that is outside the range where they collected this data.
+p.data %.% group_by(month) %.% summarise(n=n()) 
+
+region.lst <- read.csv("data/iata_by_region.csv", header=T, stringsAsFactors=F)
+
+p.data <- tbl_df(left_join(p.data, region.lst, on="origin"))
+p.data
+
+by.reg.yr.mon <- p.data %.% group_by(Region, year, month) %.% summarise(n_flights=sum(n_flights), n_wdelay=sum(n_wdelay))
+
+#okay, so the graphs are going to look at proportion in a single region, through time.
+#we need a way to compare proportions between geographical regions.
+
+
+# tables package? http://www.r-statistics.com/tag/tables/
+
+by.reg.yr.mon <- ungroup(by.reg.yr.mon)
+
+by.reg.mon <- by.reg.yr.mon %.% group_by(Region, month) %.% summarise(n_ttl=sum(n_flights), n_del=sum(n_wdelay), p = n_del/n_ttl)
+by.reg.mon
+
+by.reg.mon <- ungroup(by.reg.mon)
+
+library(dplyr)
+library(tables)
+tabular( (factor(Region)+1)~ factor(month)*(n_del), data=by.reg.mon)
+
+
+tabular( (cat+1)~mon*(Format(digits=2)*dat), data=dat.fam)
+
+# it's wanting some function for the data in the cells, and Its taking too long. I can't figure out how to just have it to a varaible.  just going to do it in excel.
+
+write.csv(by.reg.mon, "data/regon_by_month_summ.csv", row.names=F)
+
+# yay pivot tables. <10 minutes, done.
+

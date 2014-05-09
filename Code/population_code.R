@@ -153,6 +153,7 @@ library(dplyr)
   ind = which(is.na(by.month$region))
   by.month$region[ind] = "Other" # "other" includes military bases and protectorates
 
+  write.csv(by.month, "data/Popn_summary.csv", row.names=F)
 
 
 #--------------------------------------------------------------------------#

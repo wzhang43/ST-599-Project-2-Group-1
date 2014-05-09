@@ -1,0 +1,17 @@
+\documentclass{article}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+Minutes May 7, 2014\\
+
+By Friday:
+
+Matt: Pull sample data.\\
+
+Wanli: Sample analysis and graphics.\\
+
+Nandihita: Summary.
+
+
+\end{document}
