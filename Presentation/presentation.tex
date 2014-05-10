@@ -70,13 +70,15 @@ Are there geographical patterns in weather-related flight delays, and do these c
 
 \item Weather within a month is 'reasonably consistent'
 
-\item Defined regions using NOAA 
+\item Defined regions using National Oceanic and Atmospheric Administration (NOAA) map
 \begin{itemize}
 \item Added Alaska and Hawaii as their own region
-\item Lumped unlinked airport into an 'Other' region
+\item Lumped unlinked airports into an 'Other' region
 \end{itemize}
 
 \item Weather is similar in climate regions
+
+\item Analysis done on origin airport. Assumes delay on origin side.
 
 \end{itemize}
 \end{frame}
@@ -329,7 +331,7 @@ stratum
 \frametitle{Discussion}
 
 \begin{itemize}
-\item \textbf{Expecting}: seasonal differences
+\item \textbf{Expecting}: seasonal differences (more delays in winter)
 
 \item[]
 
@@ -370,14 +372,10 @@ stratum
 
 \item[]
 
-\item Figuring out how to sample by our strata (region/month/year)
-
-\item[]
-
 \item Defining regions $\&$ assigning regions to flights
 \begin{itemize}
 \item \texttt{left\_join} of DPLYR was very helpful
-\item Saved the IATA, State and Region for all airports separately for future use
+\item Saved the IATA, State and Region for all airports in a .csv file for easy use
 \end{itemize}
 
 \item[]
@@ -393,6 +391,42 @@ stratum
 \end{frame}
 
 
+\begin{frame}
+\frametitle{Obstacles and Solutions}
+\begin{itemize}
+
+\item[]
+
+\item Figuring out how to sample by our strata (region/month/year)
+
+
+\begin{itemize}
+\item Define list of vectors:
+%\texttt{  region.df <- tbl\_df(read.csv(``data/iata_by_region.csv'', header\=T, stringsAsFactors\=F))}
+
+
+\texttt{ak.list <- [All Alaska Airport Codes] }\\
+\texttt{c.list  <- [All Central Airport Codes]}\\
+\texttt{\ldots}\\
+\texttt{r.list <- list(ak.list, c.list,\ldots)}
+\item[]
+
+\item Within loop, assign one vector from list to a variable:\\
+\texttt{o.list = r.list[[k]]}\\
+
+\item[]
+\item Within filter, use \texttt{\%in\%} statement and list variable:\\
+\texttt{filter(\ldots,origin \%in\% o.list,\ldots)}\\
+
+
+\end{itemize}
+
+
+
+\item[]
+
+\end{itemize}
+\end{frame}
 
 
 \begin{frame}
@@ -410,7 +444,7 @@ stratum
 
 \item "Other" region: military bases and protectorates, not geographically consistent
 \begin{itemize}
-\item Included in analysis but no conclusions drawn from it
+\item Included in summary but no conclusions drawn from it
 \end{itemize}
 
 \item[]

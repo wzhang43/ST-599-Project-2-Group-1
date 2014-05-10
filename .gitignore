@@ -15,6 +15,10 @@
 # Extra Latex Files
 *.log
 *.synctex.gz
+*.aux
+*.nav
+*.out
+*.toc
 <<<<<<< HEAD
 .Rproj.user
 =======
