@@ -169,26 +169,26 @@ library(dplyr)
   ggplot() +
     geom_line(by.month, mapping = aes(y=p, x=date, group=region, colour=region)) +
     facet_wrap(~region, nrow=4) +
-    ggtitle("Proportion of Delayed Flights per Month by Region, 6/2003 - 12/2003") +
+    ggtitle("Proportion of Delayed Flights per Month by Region, 6/2003 - 12/2013") +
     theme(axis.title.x=element_blank(),
         axis.title.y=element_blank(),legend.position="none") +
     scale_x_date()
 
-  ggsave("popn_prop.png", width=8, height=5, units="in", dpi=400)
+  ggsave("Images/popn_prop.png", width=8, height=5, units="in", dpi=400)
 
 
 
 ## plot for region "northrockies" alone
-
+library(dplyr)
   nr = filter(by.month, region=="NorthRockies")
   
   qplot(date, p, data = nr, geom = "line") +
-    ggtitle("Proportion of Delayed Flights per Month, Northern Rockies (6/2003-12/2003)") +
+    ggtitle("Proportion of Delayed Flights per Month, Northern Rockies (6/2003-12/2013)") +
     geom_smooth(method = "loess", se=F) +
     theme(axis.title.x=element_blank(),
         axis.title.y=element_blank(),legend.position="none")
 
-  ggsave("popn_prop_northrockies.png", width=8, height=5, units="in", dpi=400)
+  ggsave("Images/popn_prop_northrockies.png", width=8, height=5, units="in", dpi=400)
 
 
 

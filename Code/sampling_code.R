@@ -216,7 +216,7 @@
     scale_x_date() +
     scale_y_continuous(limits=c(-0.05,0.15))
 
-  ggsave("samp_prop.png", width=8, height=5, units="in", dpi=400)
+  ggsave("Images/samp_prop.png", width=8, height=5, units="in", dpi=400)
 
 
 
@@ -225,12 +225,12 @@
   sou = filter(samp.ci, Region=="South")
   
   qplot(date, prop_delay, data = sou, geom = "line") +
-    ggtitle("Proportion of Delayed Flights per Month, South (6/2003-12/2003)") +
+    ggtitle("Proportion of Delayed Flights per Month, South (6/2003-12/2013)") +
     geom_smooth(method = "loess", se=F) +
     theme(axis.title.x=element_blank(),
         axis.title.y=element_blank(),legend.position="none")
 
-  ggsave("samp_prop_south.png", width=8, height=5, units="in", dpi=400)
+  ggsave("Images/samp_prop_south.png", width=8, height=5, units="in", dpi=400)
   
   
   
