@@ -220,7 +220,17 @@
 
 
 
+## plot for south alone
   
+  sou = filter(samp.ci, Region=="South")
+  
+  qplot(date, prop_delay, data = sou, geom = "line") +
+    ggtitle("Proportion of Delayed Flights per Month, South (6/2003-12/2003)") +
+    geom_smooth(method = "loess", se=F) +
+    theme(axis.title.x=element_blank(),
+        axis.title.y=element_blank(),legend.position="none")
+
+  ggsave("samp_prop_south.png", width=8, height=5, units="in", dpi=400)
   
   
   
